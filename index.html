@@ -102,33 +102,44 @@ function pick(a){
 return a[Math.floor(Math.random()*a.length)];
 }
 
-// 🔥 KRİTİK: HER ZAMAN 10 DOLU SATIR ÜRETİR
-function generate10Lines(name,d){
+// 🔥 10 KELİME SATIRI ÜRETİR (boşluk yok)
+function buildLyrics10(name,d){
 
-let lines=[];
+let lyrics=[];
 
-function add(t){
-if(t && t.trim()!=="") lines.push(t);
+// 10 TANE GERÇEK SATIR
+lyrics.push(`🎵 ${name} 🎵`);
+lyrics.push(`${pick(d.nouns||d.base)} ${pick(d.verbs||d.promise||d.verbs)} ${pick(d.adj||d.soft)}`);
+lyrics.push(`${pick(d.nouns||d.base)} ${pick(d.verbs||d.promise||d.verbs)} ${pick(d.adj||d.soft)}`);
+lyrics.push(`${pick(d.nouns||d.base)} hissediyor`);
+lyrics.push(name);
+lyrics.push(`içimde ${pick(d.nouns||d.base)} büyüyor`);
+lyrics.push(`bu dünya ${pick(d.verbs||d.promise||d.verbs)} ama sen yoksun`);
+lyrics.push(`kalbim ${pick(d.verbs||d.promise||d.verbs)}`);
+lyrics.push(`sessizlik ${pick(d.verbs||d.promise||d.verbs)}`);
+lyrics.push(`sonsuzluk ${pick(d.adj||d.soft)}`);
+
+return lyrics.join("\n");
 }
 
-// 10 SATIR GARANTİ
-add(`🎵 ${name} 🎵`);
-add(`${pick(d.nouns||d.base)} ${pick(d.verbs||d.promise||d.verbs)} ${pick(d.adj||d.soft)}`);
-add(`${pick(d.nouns||d.base)} ${pick(d.verbs||d.promise||d.verbs)} ${pick(d.adj||d.soft)}`);
-add(`${pick(d.nouns||d.base)} hissediyor`);
-add(name);
-add(`içimde ${pick(d.nouns||d.base)} büyüyor`);
-add(`bu dünya ${pick(d.verbs||d.promise||d.verbs)} ama sen yoksun`);
-add(`kalbim ${pick(d.verbs||d.promise||d.verbs)}`);
-add(`sessizlik ${pick(d.verbs||d.promise||d.verbs)}`);
-add(`sonsuzluk ${pick(d.adj||d.soft)}`);
+// 🔥 boş satırları SONRADAN ekler (sayıya dahil değil)
+function addSpacing(text){
+let lines=text.split("\n");
 
-// kesin 10'a tamamla
-while(lines.length<10){
-lines.push(".");
+// 3–5 boşluk rastgele
+let emptyCount=2+Math.floor(Math.random()*3);
+
+let result=[];
+
+for(let i=0;i<lines.length;i++){
+result.push(lines[i]);
+if(i%2===0 && emptyCount>0){
+result.push("");
+emptyCount--;
+}
 }
 
-return lines.slice(0,10).join("\n");
+return result.join("\n");
 }
 
 function generate(){
@@ -139,25 +150,25 @@ let m=document.getElementById("mode").value;
 if(m==="apology"){
 let d=vocab.apology;
 
-let lines=[];
-function add(t){ if(t && t.trim()!=="") lines.push(t); }
+let base=[
+`🙏 ${v} için özür`,
+pick(d.base),
+pick(d.promise),
+pick(d.soft),
+"seni kırmak istemedim",
+"içimde pişmanlık büyüyor",
+"lütfen affet",
+"değişeceğim",
+"sen değerlisin",
+"bir şans ver"
+].join("\n");
 
-add(`🙏 ${v} için özür`);
-add(pick(d.base));
-add(pick(d.promise));
-add(pick(d.soft));
-add("seni kırmak istemedim");
-add("içimde pişmanlık büyüyor");
-add("lütfen affet");
-add("değişeceğim");
-add("sen değerlisin");
-add("bir şans ver");
-
-document.getElementById("out").textContent=lines.slice(0,10).join("\n");
+document.getElementById("out").textContent=addSpacing(base);
 return;
 }
 
-document.getElementById("out").textContent=generate10Lines(v,vocab[m]);
+let lyrics=buildLyrics10(v,vocab[m]);
+document.getElementById("out").textContent=addSpacing(lyrics);
 }
 
 </script>
