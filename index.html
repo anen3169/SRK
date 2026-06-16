@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ŞRK-3 ULTRA</title>
+<title>ŞRK-3 SONG ENGINE</title>
 
 <style>
 body{
@@ -34,14 +34,14 @@ input,select,button{
     border-radius:10px;
 }
 input,select{background:#111;color:white}
-button{background:linear-gradient(90deg,#00f7ff,#0066ff);font-weight:bold}
-pre{white-space:pre-wrap;background:#0b0b0b;padding:14px;border-radius:10px;min-height:260px}
+button{background:linear-gradient(90deg,#00f7ff,#0066ff);font-weight:bold;cursor:pointer}
+pre{white-space:pre-wrap;background:#0b0b0b;padding:14px;border-radius:10px;min-height:320px}
 </style>
 </head>
 
 <body>
 
-<header>🤖 ŞRK-3 ULTRA</header>
+<header>🎵 ŞRK-3 SONG ENGINE</header>
 
 <div class="container">
 
@@ -54,7 +54,6 @@ pre{white-space:pre-wrap;background:#0b0b0b;padding:14px;border-radius:10px;min-
 <option value="night">🌙 Gece</option>
 <option value="rap">🎤 Rap</option>
 <option value="happy">🌈 Mutlu</option>
-<option value="apology">🙏 Özür</option>
 </select>
 <button onclick="generate()">Üret</button>
 </div>
@@ -68,107 +67,101 @@ pre{white-space:pre-wrap;background:#0b0b0b;padding:14px;border-radius:10px;min-
 <script>
 
 const vocab = {
-love:{nouns:["kalp","aşk","özlem","rüya","bakış","nefes","ruh","yıldız","deniz","ışık","ten"],
+love:{
+nouns:["kalp","aşk","özlem","rüya","bakış","nefes","ruh","yıldız","deniz","ışık","ten"],
 verbs:["yanar","özler","bekler","arar","titrer","sarılır","akar"],
-adj:["derin","romantik","sonsuz","sıcak","kırılgan"]},
+adj:["derin","romantik","sonsuz","sıcak","kırılgan"]
+},
 
-sad:{nouns:["yağmur","yalnızlık","gölge","sessizlik","gözyaşı","sis","yankı","boşluk"],
+sad:{
+nouns:["yağmur","yalnızlık","gölge","sessizlik","gözyaşı","sis","yankı","boşluk"],
 verbs:["ağlar","susar","kaybolur","söner","üşür","kırılır"],
-adj:["soğuk","karanlık","kırık","sessiz","yorgun"]},
+adj:["soğuk","karanlık","kırık","sessiz","yorgun"]
+},
 
-fun:{nouns:["sokak","ışık","ritim","şehir","parti","dans","müzik","enerji"],
+fun:{
+nouns:["sokak","ışık","ritim","şehir","parti","dans","müzik","enerji"],
 verbs:["zıplar","akar","döner","patlar","güler","coşar"],
-adj:["hızlı","renkli","çılgın","canlı","enerjik"]},
+adj:["hızlı","renkli","çılgın","canlı","enerjik"]
+},
 
-night:{nouns:["ay","yıldız","gece","gökyüzü","sessizlik","rüya","gölge"],
+night:{
+nouns:["ay","yıldız","gece","gökyüzü","sessizlik","rüya","gölge"],
 verbs:["parlar","süzülür","bekler","kaybolur","akar"],
-adj:["mistik","sessiz","karanlık","büyülü"]},
+adj:["mistik","sessiz","karanlık","büyülü"]
+},
 
-rap:{nouns:["flow","beat","mikrofon","sahne","verse","ritim"],
+rap:{
+nouns:["flow","beat","mikrofon","sahne","verse","ritim"],
 verbs:["akar","patlar","yükselir","vurur","hızlanır"],
-adj:["sert","hızlı","güçlü","ateşli"]},
+adj:["sert","hızlı","güçlü","ateşli"]
+},
 
-happy:{nouns:["umut","kahkaha","güneş","neşe","mutluluk","ışık"],
+happy:{
+nouns:["umut","kahkaha","güneş","neşe","mutluluk","ışık"],
 verbs:["güler","parlar","koşar","coşar","büyür"],
-adj:["parlak","mutlu","neşeli","enerjik"]},
-
-apology:{
-base:["özür dilerim","pişmanım","hatalıydım","seni kırdım","üzgünüm"],
-promise:["düzelteceğim","öğreneceğim","telafi edeceğim","değişeceğim"],
-soft:["beni affet","lütfen","sen değerlisin","bir şans ver"]
+adj:["parlak","mutlu","neşeli","enerjik"]
+}
 };
 
 function pick(a){
 return a[Math.floor(Math.random()*a.length)];
 }
 
-// 🔥 10 KELİME SATIRI ÜRETİR (boşluk yok)
-function buildLyrics10(name,d){
-
-let lyrics=[];
-
-// 10 TANE GERÇEK SATIR
-lyrics.push(`🎵 ${name} 🎵`);
-lyrics.push(`${pick(d.nouns||d.base)} ${pick(d.verbs||d.promise||d.verbs)} ${pick(d.adj||d.soft)}`);
-lyrics.push(`${pick(d.nouns||d.base)} ${pick(d.verbs||d.promise||d.verbs)} ${pick(d.adj||d.soft)}`);
-lyrics.push(`${pick(d.nouns||d.base)} hissediyor`);
-lyrics.push(name);
-lyrics.push(`içimde ${pick(d.nouns||d.base)} büyüyor`);
-lyrics.push(`bu dünya ${pick(d.verbs||d.promise||d.verbs)} ama sen yoksun`);
-lyrics.push(`kalbim ${pick(d.verbs||d.promise||d.verbs)}`);
-lyrics.push(`sessizlik ${pick(d.verbs||d.promise||d.verbs)}`);
-lyrics.push(`sonsuzluk ${pick(d.adj||d.soft)}`);
-
-return lyrics.join("\n");
+function verse(d){
+return [
+pick(d.nouns)+" "+pick(d.verbs)+" bir hikaye",
+pick(d.nouns)+" içinde "+pick(d.verbs),
+pick(d.nouns)+" beni "+pick(d.verbs)
+].join("\n");
 }
 
-// 🔥 boş satırları SONRADAN ekler (sayıya dahil değil)
-function addSpacing(text){
-let lines=text.split("\n");
-
-// 3–5 boşluk rastgele
-let emptyCount=2+Math.floor(Math.random()*3);
-
-let result=[];
-
-for(let i=0;i<lines.length;i++){
-result.push(lines[i]);
-if(i%2===0 && emptyCount>0){
-result.push("");
-emptyCount--;
-}
+function chorus(name,d){
+return [
+name+", "+name,
+"içimde "+pick(d.nouns)+" var",
+"bu dünya "+pick(d.verbs)+" ama sen yoksun"
+].join("\n");
 }
 
-return result.join("\n");
+function verse2(d){
+return [
+pick(d.nouns)+" sokaklarda seni ararım",
+pick(d.nouns)+" "+pick(d.verbs)+" adını taşır",
+"ben "+pick(d.verbs)+" içinde kaybolurum"
+].join("\n");
+}
+
+function outro(name,d){
+return [
+name+"...",
+"her şey artık "+pick(d.adj)+" bir hikaye"
+].join("\n");
 }
 
 function generate(){
 
-let v=document.getElementById("inputField").value||"İsimsiz";
+let name=document.getElementById("inputField").value||"İsimsiz Şarkı";
 let m=document.getElementById("mode").value;
+let d=vocab[m];
 
-if(m==="apology"){
-let d=vocab.apology;
+let song =
+`🎵 ${name} 🎵
 
-let base=[
-`🙏 ${v} için özür`,
-pick(d.base),
-pick(d.promise),
-pick(d.soft),
-"seni kırmak istemedim",
-"içimde pişmanlık büyüyor",
-"lütfen affet",
-"değişeceğim",
-"sen değerlisin",
-"bir şans ver"
-].join("\n");
+[Verse 1]
+${verse(d)}
 
-document.getElementById("out").textContent=addSpacing(base);
-return;
-}
+[Chorus]
+${chorus(name,d)}
 
-let lyrics=buildLyrics10(v,vocab[m]);
-document.getElementById("out").textContent=addSpacing(lyrics);
+[Verse 2]
+${verse2(d)}
+
+[Outro]
+${outro(name,d)}
+`;
+
+document.getElementById("out").textContent=song;
 }
 
 </script>
