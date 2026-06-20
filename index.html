@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🤖ŞRK-3 PRO</title>
+<title>ŞRK-3 ULTRA</title>
 
 <style>
 body{
@@ -34,28 +34,33 @@ input,select,button{
     border-radius:10px;
 }
 input,select{background:#111;color:white}
-button{background:linear-gradient(90deg,#00f7ff,#0066ff);font-weight:bold;cursor:pointer}
-pre{white-space:pre-wrap;background:#0b0b0b;padding:14px;border-radius:10px;min-height:320px}
+button{background:linear-gradient(90deg,#00f7ff,#0066ff);font-weight:bold}
+pre{white-space:pre-wrap;background:#0b0b0b;padding:14px;border-radius:10px;min-height:260px}
 </style>
 </head>
 
 <body>
 
-<header>🤖ŞRK-3 PRO</header>
+<header>🤖 ŞRK-3 ULTRA (350+ VOCAB ENGINE)</header>
 
 <div class="container">
 
 <div class="card">
 <input id="inputField" placeholder="Şarkı adı">
-<select id="mode">
+<select id="mode" onchange="toggleMode()">
 <option value="love">💔 Aşk</option>
 <option value="sad">😢 Üzüntü</option>
 <option value="fun">😊 Eğlence</option>
 <option value="night">🌙 Gece</option>
 <option value="rap">🎤 Rap</option>
 <option value="happy">🌈 Mutlu</option>
+<option value="apology">🙏 Özür</option>
 </select>
 <button onclick="generate()">Üret</button>
+</div>
+
+<div class="card">
+📚 Vocab: 350+
 </div>
 
 <div class="card">
@@ -68,101 +73,80 @@ pre{white-space:pre-wrap;background:#0b0b0b;padding:14px;border-radius:10px;min-
 
 const vocab = {
 love:{
-nouns:["kalp","aşk","özlem","rüya","bakış","nefes","ruh","yıldız","deniz","ışık","ten"],
-verbs:["yanar","özler","bekler","arar","titrer","sarılır","akar"],
-adj:["derin","romantik","sonsuz","sıcak","kırılgan"]
+nouns:["kalp","aşk","özlem","rüya","bakış","nefes","ruh","yıldız","deniz","ışık","ten","gülüş","zaman","sonsuzluk","mesafe","hatıra","yemin","dokunuş","koku","nabız","hayal","romantizm","gece","ay","duygu"],
+verbs:["yanar","özler","bekler","arar","sarar","çarpılır","titrer","bağlanır","yaklaşır","unutamaz","hatırlar","fısıldar","çağırır","eritir","sarılır","iç çeker","yakılır","hisseder","özler","akar"],
+adj:["derin","romantik","sonsuz","sıcak","kayıp","hassas","yakıcı","unutulmaz","yarım","yoğun","içten","sessiz","parlak","duygusal","kırılgan"]
 },
 
 sad:{
-nouns:["yağmur","yalnızlık","gölge","sessizlik","gözyaşı","sis","yankı","boşluk"],
-verbs:["ağlar","susar","kaybolur","söner","üşür","kırılır"],
-adj:["soğuk","karanlık","kırık","sessiz","yorgun"]
+nouns:["yağmur","yalnızlık","gölge","sessizlik","gözyaşı","sis","yankı","boşluk","kırık cam","eski şarkı","gece","soğuk sokak","anılar","duvar","fotoğraf","mektup","zaman","kayıp","mezar","yol"],
+verbs:["ağlar","susar","kaybolur","söner","üşür","dağılır","kırılır","unutur","solar","donar","çöker","yok olur","sessizleşir","boşalır","yıpranır","yok sayar","sürünür","bitirir"],
+adj:["soğuk","karanlık","kırık","sessiz","yorgun","acı","boş","soluk","bitmiş","derin","kayıp","donuk","çürük","yıkık","sessizce ölü"]
 },
 
 fun:{
-nouns:["sokak","ışık","ritim","şehir","parti","dans","müzik","enerji"],
-verbs:["zıplar","akar","döner","patlar","güler","coşar"],
-adj:["hızlı","renkli","çılgın","canlı","enerjik"]
+nouns:["sokak","ışık","ritim","şehir","kalabalık","renk","gece","parti","dans","müzik","DJ","beat","sahne","festival","kalabalık deniz","neon","araba","cadde","hoparlör","enerji"],
+verbs:["zıplar","akar","döner","patlar","güler","parlar","koşar","çalar","titreşir","coşar","patlatır","uçurur","şarkı söyler","hareket eder","yakar","hızlanır","çınlar","vurur"],
+adj:["hızlı","renkli","çılgın","canlı","enerjik","parlak","ateşli","yüksek","deli","parıltılı","sıcak","hareketli","gürültülü","ışıklı","dinamik"]
 },
 
 night:{
-nouns:["ay","yıldız","gece","gökyüzü","sessizlik","rüya","gölge"],
-verbs:["parlar","süzülür","bekler","kaybolur","akar"],
-adj:["mistik","sessiz","karanlık","büyülü", "herhan"]
+nouns:["ay","yıldız","gece","gökyüzü","sokak lambası","karanlık","sessizlik","bulut","ufuk","şehir ışıkları","rüya","gölge","deniz","rüzgar","zaman","gece treni","yol","yalnız sokak","ışık hüzmesi","sonsuzluk"],
+verbs:["parlar","süzülür","bekler","kaybolur","uyanır","akar","söner","uzanır","sessizleşir","titreşir","göç eder","kararır","yavaşlar","izler","düşer"],
+adj:["mistik","sessiz","derin","soğuk","karanlık","parlak","uykulu","hüzünlü","sonsuz","büyülü","loş","durgun","geceye ait","uçsuz","hafif"]
 },
 
 rap:{
-nouns:["flow","beat","mikrofon","sahne","verse","ritim"],
-verbs:["akar","patlar","yükselir","vurur","hızlanır"],
-adj:["sert","hızlı","güçlü","ateşli"]
+nouns:["flow","beat","mikrofon","sahne","verse","punchline","ritim","stüdyo","kafiye","kalabalık","bas","hook","drop","enerji","spit","crew","hiphop","blok","sokak","mikser"],
+verbs:["akar","patlar","yükselir","vurur","çınlar","söyler","çatlatır","akışır","sertleşir","hızlanır","basar","yakar","döker","söndürür","yükseltir"],
+adj:["sert","hızlı","güçlü","ateşli","keskin","yoğun","agresif","parlak","dinamik","yüksek","vahşi","özgür","ham","gerçek","gürültülü"]
 },
 
 happy:{
-nouns:["umut","kahkaha","güneş","neşe","mutluluk","ışık"],
-verbs:["güler","parlar","koşar","coşar","büyür"],
-adj:["parlak","mutlu","neşeli","enerjik"]
+nouns:["umut","başarı","kahkaha","dostluk","güneş","neşe","mutluluk","gülüş","bahar","zafer","enerji","ışık","renk","hayat","coşku","kutlama","şans","sevgi","güven","barış"],
+verbs:["güler","yükselir","dans eder","parlar","koşar","açar","yayılır","coşar","sıçrar","ışıldar","kutlar","nefes alır","güçlenir","büyür","uyanır"],
+adj:["parlak","sıcak","enerjik","mutlu","canlı","neşeli","ışıltılı","pozitif","hafif","özgür","güzel","temiz","uyumlu","sevinçli","parlayan"]
+},
+
+apology:{
+base:["özür dilerim","hatalıydım","seni kırdım","pişmanım","yanlış yaptım","üzdüm seni","düşünemedim","kalbini kırdım","haksızdım","affet beni","keşke yapmasaydım","üzgünüm"],
+promise:["telafi edeceğim","daha dikkatli olacağım","aynı hatayı yapmayacağım","öğreneceğim","daha iyi olacağım","seni anlayacağım","güvenini kazanacağım","düzelteceğim","değişeceğim","yanında olacağım","koruyacağım","dinleyeceğim"],
+soft:["beni affet","lütfen","seni önemsiyorum","gitme","sen değerlisin","kaybetmek istemiyorum","kal lütfen","önemlisin benim için","üzmek istemem","bir şans ver"]
 }
 };
 
-function pick(a){
-return a[Math.floor(Math.random()*a.length)];
-}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
 
-function verse(d){
-return [
-pick(d.nouns)+" "+pick(d.verbs)+" bir hikaye",
-pick(d.nouns)+" içinde "+pick(d.verbs),
-pick(d.nouns)+" beni "+pick(d.verbs)
-].join("\n");
-}
-
-function chorus(name,d){
-return [
-name+", "+name,
-"içimde "+pick(d.nouns)+" var",
-"bu dünya "+pick(d.verbs)+" ama sen yoksun"
-].join("\n");
-}
-
-function verse2(d){
-return [
-pick(d.nouns)+" sokaklarda seni ararım",
-pick(d.nouns)+" "+pick(d.verbs)+" adını taşır",
-"ben "+pick(d.verbs)+" içinde kaybolurum"
-].join("\n");
-}
-
-function outro(name,d){
-return [
-name+"...",
-"her şey artık "+pick(d.adj)+" bir hikaye"
-].join("\n");
+function toggleMode(){
+let m=document.getElementById("mode").value;
+document.getElementById("inputField").placeholder=m==="apology"?"Kişi adı":"Şarkı adı";
 }
 
 function generate(){
-
-let name=document.getElementById("inputField").value||"İsimsiz Şarkı";
+let v=document.getElementById("inputField").value||"İsimsiz";
 let m=document.getElementById("mode").value;
+
+if(m==="apology"){
+let d=vocab.apology;
+document.getElementById("out").textContent=
+`🙏 ${v} için özür\n\n${pick(d.base)}\n${pick(d.promise)}\n${pick(d.soft)}`;
+return;
+}
+
 let d=vocab[m];
 
-let song =
-`🎵 ${name} 🎵
+document.getElementById("out").textContent=
+`🎵 ${v} 🎵
 
-[Verse 1]
-${verse(d)}
+${pick(d.nouns)} ${pick(d.verbs)} ${pick(d.adj)}
+${pick(d.nouns)} ${pick(d.verbs)} ${pick(d.adj)}
 
-[Chorus]
-${chorus(name,d)}
-
-[Verse 2]
-${verse2(d)}
-
-[Outro]
-${outro(name,d)}
-`;
-
-document.getElementById("out").textContent=song;
+${v}
+içimde ${pick(d.nouns)} büyüyor
+bu dünya ${pick(d.verbs)} ama sen yoksun`;
 }
+
+toggleMode();
 
 </script>
 
